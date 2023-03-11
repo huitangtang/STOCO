@@ -15,3 +15,16 @@ The references of the used datasets are included in the paper.
 3. Run command `sh run.sh`.
 
 The results are saved in the folder `./results/`.
+
+## Paper citation
+```
+@InProceedings{STOCO,
+author={Tang, Hui
+and Sun, Lin
+and Jia, Kui},
+title={Stochastic Consensus: Enhancing Semi-Supervised Learning with Consistency of Stochastic Classifiers},
+booktitle={Computer Vision -- ECCV 2022},
+year={2022},
+pages={330-346},
+}
+```
