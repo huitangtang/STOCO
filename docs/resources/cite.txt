@@ -1,0 +1,9 @@
+@InProceedings{STOCO,
+author={Tang, Hui
+and Sun, Lin
+and Jia, Kui},
+title={Stochastic Consensus: Enhancing Semi-Supervised Learning with Consistency of Stochastic Classifiers},
+booktitle={Computer Vision -- ECCV 2022},
+year={2022},
+pages={330-346},
+}
