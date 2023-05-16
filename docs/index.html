@@ -326,7 +326,7 @@
     <tr>
         <td>
             <div style="text-align: center;">
-                <img src="resources/fig1.png" width="600px">
+                <img src="resources/fig1.png" width="500px">
             </div>
         </td>
     </tr>
@@ -360,6 +360,7 @@
                 Inspired by co-training and tri-training; they leverage category predictions of one or two classifiers on unlabeled samples to enlarge the training set, 
 		wherein a designing principle is based on majority voting that shares a similar insight with the popular techniques of ensemble learning. 
 		<br>
+		<br>
 		Specifically, we sample multiple classifiers from a learned Gaussian distribution; 
 		for the weakly-augmented version of any unlabeled sample, we calculate the element-wise product of category predictions from these stochastic classifiers 
 		and select samples with the maximum value in the product higher than a pre-defined threshold &tau;. 
@@ -378,6 +379,7 @@
             <p style="text-align:justify; text-justify:inter-ideograph;">
                 The deep discriminative clustering algorithm can encourage cluster size balance while respecting the underlying data distribution. 
 		Thus, we use this algorithm to generate pseudo labels for unlabeled samples. 
+		<br>
 		<br>
 		Specifically, we take an average over the predictions from multiple classifiers, 
 		and generate pseudo labels from the thus obtained averages via deep discriminative clustering; 
@@ -398,10 +400,11 @@
                 We provide theoretical analysis for our method to show its progressively improved classification error by connecting with the probably approximately correct (PAC) learning theory on noisy data. 
 		Three conditions to progressively improve the model are derived from Theorem 1. Our method can satisfy the three conditions, as shown shortly.
 		<br>
+		<br>
 		Our theoretical analysis connects noisy label learning to SSL, and can serve as a general analytical method for pseudo-labeling based SSL frameworks including our STOCO.
             </p>
 	    <div style="text-align: center;">
-                <img src="resources/theorem1.png" width="800px">
+                <img src="resources/theorem1.png" width="600px">
             </div>
         </td>
     </tr>
@@ -431,7 +434,7 @@
             </div>
 	    <p style="text-align:center;">
 		We report error rates on a single 40-label split from CIFAR-10. STOCO (w/o CC and DDC) removes both consistency criterion among stochastic classifiers and pseudo label generation via discriminative clustering, namely FixMatch. STOCO (w/o CC) removes the consistency criterion only. STOCO (m = 5) is with 5 stochastic classifiers, i.e., our method.
-	    <\p>
+	    </p>
         </td>
     </tr>
 </table>
@@ -446,6 +449,7 @@
             <p style="text-align:justify; text-justify:inter-ideograph;">
                 In the row of test loss, we find that FixMatch suffers a slight rise at the late stage of training whereas our STOCO does not, suggesting that our method indeed has the effect of alleviating overfitting. 
 		<br>
+		<br>
 		As the training process proceeds, our STOCO has an increasing mask rate, and its noise rate and mislabeled number decrease, indicating that the three conditions are satisfied; 
 		notably, our method achieves a much lower mislabeled number than FixMatch on all label settings, demonstrating the superiority of our method. 
 		These observations corroborate our theoretical analysis.
@@ -456,7 +460,7 @@
             </div>
 	    <p style="text-align:center;">
 		For all subfigures, the horizontal axis represents the training epoch; the colors of blue and orange correspond to the results of FixMatch and our method respectively. The results are obtained on CIFAR-10 with 40 (column 1), 250 (column 2), and 4, 000 (column 3) labels.
-	    <\p>
+	    </p>
         </td>
     </tr>
 </table>
@@ -474,11 +478,11 @@
             </p>
 	    <br>
             <div style="text-align: center;">
-                <img src="resources/fig4.png" width="600px">
+                <img src="resources/fig4.png" width="500px">
             </div>
 	    <p style="text-align:center;">
 		Average variance of the learned Gaussian distribution during model training. 
-	    <\p>
+	    </p>
         </td>
     </tr>
 </table>
@@ -493,6 +497,7 @@
             <p style="text-align:justify; text-justify:inter-ideograph;">
                 On the extremely label-scarce setting (cf. Figs. a and c), our STOCO yields more similar marginal feature distributions between the training and test data.
 		<br>
+		<br>
 		In Fig. b of FixMatch, two different classes wrongly merge into one cluster, e.g., red airplane and purple ship. 
 		A possible reason is that the shapes of a ship and a plane with its wings removed and the backgrounds of sky and sea are visually similar. 
 		In contrast, our STOCO separates these ambiguous classes in the feature space (cf. Fig. d), demonstrating that our method can learn more discriminative features.
@@ -505,7 +510,7 @@
 		The t-SNE visualization of features learned by FixMatch (left two columns) and our STOCO (right two columns). 
 		In columns 1 and 3, the colors of red and blue denote the training and test samples respectively; their counterparts whose classes are color-coded are in columns 2 and 4 respectively. 
 		Results in these plots are obtained on CIFAR-10 with 40 (a-d) and 250 (e-h) labels. 
-	    <\p>
+	    </p>
         </td>
     </tr>
 </table>
@@ -520,6 +525,7 @@
             <p style="text-align:justify; text-justify:inter-ideograph;">
                 On the extremely label-scarce setting (cf. Figs. a and c), our STOCO yields more similar marginal feature distributions between the training and test data.
 		<br>
+		<br>
 		Experiments on four typical benchmark datasets have demonstrated that our proposed STOCO outperforms existing methods and achieves the state of the art, especially in label-scarce cases.
             </p>
 	    <br>
@@ -528,7 +534,7 @@
             </div>
 	    <p style="text-align:center;">
 		Error rates for CIFAR-10, CIFAR-100, SVHN, and STL-10. 
-	    <\p>
+	    </p>
         </td>
     </tr>
 </table>
