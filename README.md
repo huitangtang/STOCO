@@ -1,6 +1,8 @@
 # STOCO
 Code release for ``Stochastic Consensus: Enhancing Semi-Supervised Learning with Consistency of Stochastic Classifiers'' accepted by ECCV 2022.
 
+[Project Page](https://huitangtang.github.io/STOCO/) $\cdot$ [PDF Download](https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136910319.pdf)
+
 ## Requirements
 - python 3.6.4
 - pytorch 1.4.0
