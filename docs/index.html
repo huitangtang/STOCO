@@ -352,15 +352,6 @@
 <div style="text-align: center;">
     <h3>Consistency Criterion among Stochastic Classifiers</h3>
 </div>
-
-<p style="text-align:justify; text-justify:inter-ideograph;">
-                Inspired by co-training and tri-training; they leverage category predictions of one or two classifiers on unlabeled samples to enlarge the training set, 
-		wherein a designing principle is based on majority voting that shares a similar insight with the popular techniques of ensemble learning. 
-		
-		Specifically, we sample multiple classifiers from a learned Gaussian distribution; 
-		for the weakly-augmented version of any unlabeled sample, we calculate the element-wise product of category predictions from these stochastic classifiers 
-		and select samples with the maximum value in the product higher than a pre-defined threshold &tau. 
-</p>
 	
 <table>
     <tr>
@@ -368,76 +359,176 @@
             <p style="text-align:justify; text-justify:inter-ideograph;">
                 Inspired by co-training and tri-training; they leverage category predictions of one or two classifiers on unlabeled samples to enlarge the training set, 
 		wherein a designing principle is based on majority voting that shares a similar insight with the popular techniques of ensemble learning. 
-		
+		<br>
 		Specifically, we sample multiple classifiers from a learned Gaussian distribution; 
 		for the weakly-augmented version of any unlabeled sample, we calculate the element-wise product of category predictions from these stochastic classifiers 
-		and select samples with the maximum value in the product higher than a pre-defined threshold &tau. 
+		and select samples with the maximum value in the product higher than a pre-defined threshold &tau;. 
             </p>
         </td>
     </tr>
+</table>
 
+<div style="text-align: center;">
+    <h3>Pseudo Label Generation via Discriminative Clustering</h3>
+</div>
+	
+<table>
     <tr>
         <td>
-            <br>
-            <p>
-                <b>
-                    R2: Cross-dataset Transfer on OVAD Benchmark
-                </b>
-            </p>
             <p style="text-align:justify; text-justify:inter-ideograph;">
-                We compare with other state-of-the-art methods on OVAD benchmark,
-following the same evaluation protocol, we conduct zero-shot cross-dataset transfer evaluation with CLIP-Attr and OvarNet trained on COCO Caption dataset.
-Metric is average precision (AP) over different attribute frequency distributions, 'head', 'medium', and 'tail'.
-As shown in the Tab., our proposed models largely outperform other competitors by a noticeable margin.
+                The deep discriminative clustering algorithm can encourage cluster size balance while respecting the underlying data distribution. 
+		Thus, we use this algorithm to generate pseudo labels for unlabeled samples. 
+		<br>
+		Specifically, we take an average over the predictions from multiple classifiers, 
+		and generate pseudo labels from the thus obtained averages via deep discriminative clustering; 
+		then, with these derived targets, the model is trained using the strongly-augmented version of selected samples via a cross-entropy loss.
             </p>
-            <div style="text-align: center;">
-                <img src="resources/benchmark_on_ovad.png" width="500px">
+        </td>
+    </tr>
+</table>
+	
+<div style="text-align: center;">
+    <h3>Theoretical Analysis</h3>
+</div>
+	
+<table>
+    <tr>
+        <td>
+            <p style="text-align:justify; text-justify:inter-ideograph;">
+                We provide theoretical analysis for our method to show its progressively improved classification error by connecting with the probably approximately correct (PAC) learning theory on noisy data. 
+		Three conditions to progressively improve the model are derived from Theorem 1. Our method can satisfy the three conditions, as shown shortly.
+		<br>
+		Our theoretical analysis connects noisy label learning to SSL, and can serve as a general analytical method for pseudo-labeling based SSL frameworks including our STOCO.
+            </p>
+	    <div style="text-align: center;">
+                <img src="resources/theorem1.png" width="800px">
             </div>
         </td>
     </tr>
-
-    <tr>
-        <td>
-            <br>
-            <p>
-                <b>
-                    R3: Evaluation on LSA Benchmark
-                </b>
-            </p>
-            <p style="text-align:justify; text-justify:inter-ideograph;">
-                We evaluate the proposed OvarNet on the same benchmark proposed by Pham <i>et al.</i>.
-As OpenTAP employs a Transformer-based architecture with object category and object bounding box as the additional prior inputs, we have evaluated two settings. One is the original OvarNet without any additional input information;
-                the other integrates the object category embedding as an extra token into the transformer encoder layer.
-As shown in the Tab., OvarNet outperforms prompt-based CLIP by a large margin and surpasses OpenTAP (proposed in the benchmark paper) under the same scenario,
-<i>i.e.</i>, with additional category embedding introduced. 'Attribute prompt' means the prompt designed with formats similar to "A photo of something that is [attribute]", while 'object-attribute prompt' denotes "A photo of [category] [attribute]". For the 'combined prompt', the outputs of the 'attribute prompt' and the 'object-attribute prompt' are weighted average.
-            </p>
-            <div style="text-align: center;">
-                <img src="resources/benchmark_on_lsa.png" width="500px">
-            </div>
-        </td>
-    </tr>
-
 </table>
 
 <br>
 <hr>
 <div style="text-align: center;">
-    <h2>Visualizations</h2>
+    <h2>Experiments</h2>
+</div>
+
+<div style="text-align: center;">
+    <h3>Ablation Studies</h3>
 </div>
 
 <table>
     <tr>
         <td>
             <p style="text-align:justify; text-justify:inter-ideograph;">
-                In the following Fig., we show the qualitative results
-                of OvarNet on VAW and MS-COCO benchmarks.
-                OvarNet is capable of accurately localizing, recognizing,
-                and characterizing objects based on a broad variety
-                of novel categories and attributes.
+                From the following table, we observe that our method (m = 5) degrades by 4.51% after removing the consistency criterion, 
+		and then by 2.02% after successively removing the deep discriminative clustering. This verifies that both components are indispensable and thus our method has a reasonable design. 
+		Given that the only difference between STOCO (m = 1) and STOCO (w/o CC) is whether they use a stochastic classifier, the former slightly outperforms the latter, showing the superiority of the stochastic classifier.
             </p>
+	    <br>
             <div style="text-align: center;">
-                <img src="resources/qualitative_results.png" width="800px">
+                <img src="resources/tab1.png" width="900px">
             </div>
+	    <p style="text-align:center;">
+		We report error rates on a single 40-label split from CIFAR-10. STOCO (w/o CC and DDC) removes both consistency criterion among stochastic classifiers and pseudo label generation via discriminative clustering, namely FixMatch. STOCO (w/o CC) removes the consistency criterion only. STOCO (m = 5) is with 5 stochastic classifiers, i.e., our method.
+	    <\p>
+        </td>
+    </tr>
+</table>
+	
+<div style="text-align: center;">
+    <h3>Learning Analyses</h3>
+</div>
+
+<table>
+    <tr>
+        <td>
+            <p style="text-align:justify; text-justify:inter-ideograph;">
+                In the row of test loss, we find that FixMatch suffers a slight rise at the late stage of training whereas our STOCO does not, suggesting that our method indeed has the effect of alleviating overfitting. 
+		<br>
+		As the training process proceeds, our STOCO has an increasing mask rate, and its noise rate and mislabeled number decrease, indicating that the three conditions are satisfied; 
+		notably, our method achieves a much lower mislabeled number than FixMatch on all label settings, demonstrating the superiority of our method. 
+		These observations corroborate our theoretical analysis.
+            </p>
+	    <br>
+            <div style="text-align: center;">
+                <img src="resources/fig3.png" width="900px">
+            </div>
+	    <p style="text-align:center;">
+		For all subfigures, the horizontal axis represents the training epoch; the colors of blue and orange correspond to the results of FixMatch and our method respectively. The results are obtained on CIFAR-10 with 40 (column 1), 250 (column 2), and 4, 000 (column 3) labels.
+	    <\p>
+        </td>
+    </tr>
+</table>
+	
+<div style="text-align: center;">
+    <h3>Classifier Variance</h3>
+</div>
+
+<table>
+    <tr>
+        <td>
+            <p style="text-align:justify; text-justify:inter-ideograph;">
+                We observe that as the learning process proceeds, the average variance gradually decreases, meaning that the discrepancy between stochastic classifiers reduces. 
+		This observation also suggests the convergence of the learned Gaussian distribution, which guarantees the stability of model training and performance improvement.
+            </p>
+	    <br>
+            <div style="text-align: center;">
+                <img src="resources/fig4.png" width="600px">
+            </div>
+	    <p style="text-align:center;">
+		Average variance of the learned Gaussian distribution during model training. 
+	    <\p>
+        </td>
+    </tr>
+</table>
+	
+<div style="text-align: center;">
+    <h3>Feature Visualization</h3>
+</div>
+
+<table>
+    <tr>
+        <td>
+            <p style="text-align:justify; text-justify:inter-ideograph;">
+                On the extremely label-scarce setting (cf. Figs. a and c), our STOCO yields more similar marginal feature distributions between the training and test data.
+		<br>
+		In Fig. b of FixMatch, two different classes wrongly merge into one cluster, e.g., red airplane and purple ship. 
+		A possible reason is that the shapes of a ship and a plane with its wings removed and the backgrounds of sky and sea are visually similar. 
+		In contrast, our STOCO separates these ambiguous classes in the feature space (cf. Fig. d), demonstrating that our method can learn more discriminative features.
+            </p>
+	    <br>
+            <div style="text-align: center;">
+                <img src="resources/fig5.png" width="900px">
+            </div>
+	    <p style="text-align:center;">
+		The t-SNE visualization of features learned by FixMatch (left two columns) and our STOCO (right two columns). 
+		In columns 1 and 3, the colors of red and blue denote the training and test samples respectively; their counterparts whose classes are color-coded are in columns 2 and 4 respectively. 
+		Results in these plots are obtained on CIFAR-10 with 40 (a-d) and 250 (e-h) labels. 
+	    <\p>
+        </td>
+    </tr>
+</table>
+	
+<div style="text-align: center;">
+    <h3>Comparison with SOTA</h3>
+</div>
+
+<table>
+    <tr>
+        <td>
+            <p style="text-align:justify; text-justify:inter-ideograph;">
+                On the extremely label-scarce setting (cf. Figs. a and c), our STOCO yields more similar marginal feature distributions between the training and test data.
+		<br>
+		Experiments on four typical benchmark datasets have demonstrated that our proposed STOCO outperforms existing methods and achieves the state of the art, especially in label-scarce cases.
+            </p>
+	    <br>
+            <div style="text-align: center;">
+                <img src="resources/tab2.png" width="900px">
+            </div>
+	    <p style="text-align:center;">
+		Error rates for CIFAR-10, CIFAR-100, SVHN, and STL-10. 
+	    <\p>
         </td>
     </tr>
 </table>
@@ -450,12 +541,15 @@ As shown in the Tab., OvarNet outperforms prompt-based CLIP by a large margin an
 </div>
       <pre>
   	<code>
-    @InProceedings{chen2023ovarnet,
-    title={OvarNet: Towards Open-vocabulary Object Attribute Recognition},
-    author={Chen, Keyan and Jiang, Xiaolong and Hu, Yao and Tang, Xu and Gao, Yan and Chen, Jianqi and Xie, Weidi},
-    booktitle={CVPR},
-    year={2023}}
-    
+    @InProceedings{STOCO,
+	author={Tang, Hui
+	and Sun, Lin
+	and Jia, Kui},
+	title={Stochastic Consensus: Enhancing Semi-Supervised Learning with Consistency of Stochastic Classifiers},
+	booktitle={Computer Vision -- ECCV 2022},
+	year={2022},
+	pages={330-346},
+	}
   	</code>
       </pre>
 	
@@ -466,7 +560,7 @@ As shown in the Tab., OvarNet outperforms prompt-based CLIP by a large margin an
     <h2>Acknowledgements</h2>
 </div>
       <p>
-	      Based on a template by <a href="http://web.mit.edu/phillipi/">Phillip Isola</a> and <a href="http://richzhang.github.io/">Richard Zhang</a>.
+	      Based on a template by <a href="https://kyanchen.github.io/OvarNet/">Keyan Chen</a>.
       </p>
 
 <br>
