@@ -173,21 +173,21 @@
 <br>
 <br>
 <br>
-<table align="center" width="800px">
+<table align="center" width="700px">
     <tr>
-        <td align="center" width="180px">
+        <td align="center" width="200px">
             <div style="text-align: center;">
                 <span style="font-size:16px"><a href="https://huitangtang.github.io/">Hui Tang</a><sup>1</sup></span>
             </div>
         </td>
 	
-	<td align="center" width="180px">
+	<td align="center" width="200px">
             <div style="text-align: center;">
                 <span style="font-size:16px"><a href="https://scholar.google.com.hk/citations?user=iC8zGqEAAAAJ&hl=zh-CN">Lin Sun</a><sup>2</sup></span>
             </div>
         </td>
         
-        <td align="center" width="140px">
+        <td align="center" width="200px">
             <div style="text-align: center;">
                 <span style="font-size:16px">
                     <a href="http://kuijia.site/">Kui Jia</a>
@@ -276,18 +276,25 @@
 <table>
     <tr>
         <td>
+	    <figure>
+            <img src="resources/fig2.png"
+                alt="Diagram for our method of stochastic consensus (STOCO)."
+                class="fig2" />
+            <figcaption align="center">Diagram for our method of stochastic consensus (STOCO).</figcaption>
+            </figure>
             <div style="text-align: center;">
-                <img src="resources/ovar.png" width="800px">
+                <img src="resources/fig2.png" width="800px">
             </div>
         </td>
     </tr>
     <tr>
         <td>
             <p style="text-align:justify; text-justify:inter-ideograph;">
-            The first row depicts the tasks of object detection and attribute classification in a close-set setting, <i>i.e.</i>, train and test on the same vocabulary set.
-The second row gives qualitative results from our proposed OvarNet,
-which simultaneously localizes, categorizes, and characterizes arbitrary objects in an open-vocabulary scenario. We only show one object per image for ease of visualization, <span style="color: red; "><b>red</b></span> denotes the base category/attribute <i>i.e.</i>,
-seen in the training set, while <span style="color: #1230F5; "><b>blue</b></span> represents the novel category/attribute unseen in the training set.
+		Diagram for our method of stochastic consensus (STOCO). 
+		To implement our proposed consistency criterion, we sample multiple classifiers from a learned Gaussian distribution $\mathcal{N}(\bm{\mu}, \bm{\Sigma})$; 
+		for the weakly-augmented version of any unlabeled sample, we calculate the element-wise product of category predictions from these stochastic classifiers and select samples with the maximum value in the product higher than a pre-defined threshold $\tau$; 
+		we take an average over the predictions from multiple classifiers, and generate pseudo labels from the thus obtained averages via deep discriminative clustering; 
+		then, with these derived targets, the model is trained using the strongly-augmented version of selected samples via a cross-entropy loss $\mathcal{H}(\bm{p}, \bm{q})$.
             </p>
         </td>
     </tr>
