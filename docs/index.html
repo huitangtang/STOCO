@@ -271,12 +271,6 @@
     <h2>Teaser</h2>
 </div>
 
-<script type="text/javascript"athjaxathjaxfig=TeX-AMS-MML_HTMLorMML">
-
-</script>
-
-$$x^2+y^2=1$$
-
 <p style="text-align:justify; text-justify:inter-ideograph;">
 <table>
     <tr>
@@ -290,10 +284,10 @@ $$x^2+y^2=1$$
         <td>
             <p style="text-align:justify; text-justify:inter-ideograph;">
 		Diagram for our method of stochastic consensus (STOCO). 
-		To implement our proposed consistency criterion, we sample multiple classifiers from a learned Gaussian distribution $\mathcal{N}(\bm{\mu}, \bm{\Sigma})$; 
+		To implement our proposed consistency criterion, we sample multiple classifiers from a learned Gaussian distribution; 
 		for the weakly-augmented version of any unlabeled sample, we calculate the element-wise product of category predictions from these stochastic classifiers and select samples with the maximum value in the product higher than a pre-defined threshold $\tau$; 
 		we take an average over the predictions from multiple classifiers, and generate pseudo labels from the thus obtained averages via deep discriminative clustering; 
-		then, with these derived targets, the model is trained using the strongly-augmented version of selected samples via a cross-entropy loss $\mathcal{H}(\bm{p}, \bm{q})$.
+		then, with these derived targets, the model is trained using the strongly-augmented version of selected samples via a cross-entropy loss.
             </p>
         </td>
     </tr>
@@ -310,15 +304,13 @@ $$x^2+y^2=1$$
     <tr>
         <td>
             <p style="text-align:justify; text-justify:inter-ideograph;">
-            In this paper, we consider the problem of simultaneously detecting objects and inferring their visual attributes in an image, even for those with no manual annotations provided at the training stage, resembling an open-vocabulary scenario.
-To achieve this goal, we make the following contributions:
-(i) we start with a naive two-stage approach for open-vocabulary object detection and attribute classification, termed CLIP-Attr. The candidate objects are first proposed with an offline RPN and later classified for semantic category and attributes;
-(ii) we combine all available datasets and train with a federated strategy to finetune the CLIP model, aligning the visual representation with attributes,
-additionally, we investigate the efficacy of leveraging freely available online image-caption pairs under weakly supervised learning;
-(iii) in pursuit of efficiency, we train a Faster-RCNN type model end-to-end with knowledge distillation, that performs class-agnostic object proposals and classification on semantic categories and attributes with classifiers generated from a text encoder;
-Finally, (iv) we conduct extensive experiments on VAW, MS-COCO, LSA, and OVAD datasets,
-and show that recognition of semantic category and attributes is complementary for visual scene understanding, <i>i.e.</i>, jointly training object detection and attributes prediction largely outperform existing approaches that treat the two tasks independently,
-demonstrating strong generalization ability to novel attributes and categories.
+		Semi-supervised learning (SSL) has achieved new progress recently with the emerging framework of self-training deep networks, where the criteria for selection of unlabeled samples with pseudo labels play a key role in the empirical success. 
+		In this work, we propose such a new criterion based on consistency among multiple, stochastic classifiers, termed Stochastic Consensus (STOCO). 
+	        Specifically, we model parameters of the classifiers as a Gaussian distribution whose mean and standard deviation are jointly optimized during training. 
+		Due to the scarcity of labels in SSL, modeling classifiers as a distribution itself provides additional regularization that mitigates overfitting to the labeled samples. 
+		We technically generate pseudo labels using a simple but flexible framework of deep discriminative clustering, which benefits from the overall structure of data distribution. 
+	        We also provide theoretical analysis of our criterion by connecting with the theory of learning from noisy data. Our proposed criterion can be readily applied to self-training based SSL frameworks. 
+		By choosing the representative FixMatch as the baseline, our method with multiple stochastic classifiers achieves the state of the art on popular SSL benchmarks, especially in label-scarce cases.
             </p>
         </td>
     </tr>
@@ -327,14 +319,14 @@ demonstrating strong generalization ability to novel attributes and categories.
 <br>
 <hr>
 <div style="text-align: center;">
-    <h2>Architecture</h2>
+    <h2>Background & Motivation</h2>
 </div>
 
 <table>
     <tr>
         <td>
             <div style="text-align: center;">
-                <img src="resources/reverse_models.png" width="800px">
+                <img src="resources/fig1.png" width="600px">
             </div>
         </td>
     </tr>
@@ -342,9 +334,10 @@ demonstrating strong generalization ability to novel attributes and categories.
         <td>
             <p style="text-align:justify; text-justify:inter-ideograph;">
                 <br>
-                An overview of the proposed method.
-<b>Left:</b> the two-step training procedure for finetuning the pre-trained CLIP to get CLIP-Attr that better aligns the regional visual feature to attributes. <b>Step-I:</b>  naive federate training by base attribute annotations. <b>Step-II:</b>  training by image-caption pairs. We first conduct RPN on the whole image to get box-level crops, parse the caption to get noun phrases, categories, and attributes, and then match these fine-grained concepts for weakly supervised training.
- <b>Right:</b> the proposed one-stage framework OvarNet. We inherit the CLIP-Attr for open-vocabulary object attribute recognition. Regional visual feature is learned from the attentional pooling of proposals; while attribute concept embedding is extracted from the text encoder. Solid lines declare the standard federated training regime. Dashed lines denote training by knowledge distillation with CLIP-Attr.
+                Diagram of combining self-training and consistency regularization.
+		Recent advances achieve semi-supervised learning (SSL) by combining multiple SSL techniques, e.g., self-training and consistency regularization.
+		The selection criteria used in existing methods are usually based on confidence filtering of pseudo labels, where the unlabeled samples with high confidence remain and others are discarded. 
+		We in this work show that the selection criterion can be further improved for better SSL.
             </p>
         </td>
     </tr>
@@ -353,32 +346,35 @@ demonstrating strong generalization ability to novel attributes and categories.
 <br>
 <hr>
 <div style="text-align: center;">
-    <h2>Quantitative Results</h2>
+    <h2>Highlights</h2>
 </div>
 
+<div style="text-align: center;">
+    <h3>Consistency Criterion among Stochastic Classifiers</h3>
+</div>
+
+<p style="text-align:justify; text-justify:inter-ideograph;">
+                Inspired by co-training and tri-training; they leverage category predictions of one or two classifiers on unlabeled samples to enlarge the training set, 
+		wherein a designing principle is based on majority voting that shares a similar insight with the popular techniques of ensemble learning. 
+		
+		Specifically, we sample multiple classifiers from a learned Gaussian distribution; 
+		for the weakly-augmented version of any unlabeled sample, we calculate the element-wise product of category predictions from these stochastic classifiers 
+		and select samples with the maximum value in the product higher than a pre-defined threshold &tau. 
+</p>
+	
 <table>
     <tr>
         <td>
-            <p>
-                <b>
-                    R1: Benchmark on COCO and VAW Datasets
-                </b>
-            </p>
             <p style="text-align:justify; text-justify:inter-ideograph;">
-                In the Tab., we compare OvarNet to other attribute prediction methods and open-vocabulary object detectors on the VAW test set and COCO validation set.
-As there is no open-vocabulary attribute prediction method developed on the VAW dataset,
-we re-train two models on the <i>full</i> VAW dataset as an oracle comparison, namely, SCoNE and TAP.
-Our best model achieves 68.52/67.62 AP across all attribute classes for the box-given and box-free settings respectively.
-On COCO open-vocabulary object detection,
-we compare with OVR-RCNN, ViLD, Region CLIP, PromptDet, and Detic, our best model obtains 54.10/35.17 AP for novel categories, surpassing the recent state-of-the-art ViLD-ens and Detic by a large margin,
-showing that attributes understanding is beneficial for open-vocabulary object recognition.
+                Inspired by co-training and tri-training; they leverage category predictions of one or two classifiers on unlabeled samples to enlarge the training set, 
+		wherein a designing principle is based on majority voting that shares a similar insight with the popular techniques of ensemble learning. 
+		
+		Specifically, we sample multiple classifiers from a learned Gaussian distribution; 
+		for the weakly-augmented version of any unlabeled sample, we calculate the element-wise product of category predictions from these stochastic classifiers 
+		and select samples with the maximum value in the product higher than a pre-defined threshold &tau. 
             </p>
-            <div style="text-align: center;">
-                <img src="resources/benchmark_on_coco_vaw.png" width="600px">
-            </div>
         </td>
     </tr>
-
 
     <tr>
         <td>
